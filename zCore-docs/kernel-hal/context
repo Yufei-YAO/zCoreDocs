@@ -1,0 +1,27 @@
+#[repr(C, align(16))]
+#[derive(Debug, Copy, Clone)]
+pub struct VectorRegs
+
+抽象了一个cpu context结构
+设计出将来cpu运行时的用到的寄存器结构组
+
+impl Default for VectorRegs {
+    fn default() -> Self {
+        VectorRegs {
+            fcw: 0x37f,
+            mxcsr: 0x1f80,
+            ..unsafe { core::mem::zeroed() }
+        }
+    }
+}
+
+默认生成方法
+
+0x1f80似乎是为了初始化SSE
+
+
+不知道干嘛的
+// workaround: libcore has bug on Debug print u128 ??
+#[derive(Default, Clone, Copy)]
+#[repr(C, align(16))]
+pub struct U128(pub [u64; 2]);  

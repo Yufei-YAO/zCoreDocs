@@ -1,0 +1,10 @@
+/// A Handle is how a specific process refers to a specific kernel object.
+#[derive(Debug, Clone)]
+pub struct Handle {
+    /// The object referred to by the handle.
+    pub object: Arc<dyn KernelObject>,
+    /// The handle's associated rights.
+    pub rights: Rights,
+}
+
+

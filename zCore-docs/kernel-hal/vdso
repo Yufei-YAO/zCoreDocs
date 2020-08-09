@@ -1,0 +1,34 @@
+/// This struct contains constants that are initialized by the kernel
+/// once at boot time.  From the vDSO code's perspective, they are
+/// read-only data that can never change.  Hence, no synchronization is
+/// required to read them.
+
+VDSO(Virtual Dynamically-lined Shared Object)，这是一个由内核提供的虚拟.so文件，
+它不在磁盘上，而在内核里，内核将其映射到一个地址空间中，被所有程序共享，正文段大小为一个页面。
+
+硬件常量共享信息
+pub struct VdsoConstants {
+    /// Maximum number of CPUs that might be online during the lifetime
+    /// of the booted system.
+    pub max_num_cpus: u32,
+    /// Bit map indicating features.
+    pub features: Features,
+    /// Number of bytes in a data cache line.
+    pub dcache_line_size: u32,
+    /// Number of bytes in an instruction cache line.
+    pub icache_line_size: u32,
+    /// Conversion factor for zx_ticks_get return values to seconds.
+    pub ticks_per_second: u64,
+    /// Ratio which relates ticks (zx_ticks_get) to clock monotonic.
+    ///
+    /// Specifically: ClockMono(ticks) = (ticks * N) / D
+    pub ticks_to_mono_numerator: u32,
+    pub ticks_to_mono_denominator: u32,
+    /// Total amount of physical memory in the system, in bytes.
+    pub physmem: u64,
+    /// Actual length of `version_string`, not including the NUL terminator.
+    pub version_string_len: u64,
+    /// A NUL-terminated UTF-8 string returned by `zx_system_get_version_string`.
+    pub version_string: VersionString,
+}
+
